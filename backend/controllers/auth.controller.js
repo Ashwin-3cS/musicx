@@ -1,11 +1,11 @@
 import User from "../models/user.model.js";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 
-export const signup = async (req,res) =>{
+export const profile = async (req,res) =>{
     try {
-        const {userName,mail,walletAddresss} = req.body;
+        const {userName,mail,walletAddress} = req.body;
         
 
         const user = await User.findOne({userName});
@@ -15,15 +15,14 @@ export const signup = async (req,res) =>{
     
         }
 
-
-
         const newUser = new User({
-            fullName:fullName,
+            
             userName,
-            password:hashedPassword,
-            gender, 
-            profilePic : gender === "male"  ? boyProfile : girlProfile
+            mail,
+            walletAddress
+
         })
+        
         if(newUser){
         
         generateTokenAndSetCookie(newUser._id,res);
@@ -31,9 +30,10 @@ export const signup = async (req,res) =>{
 
         res.status(201).json({
             _id:newUser._id,
-            fullName:newUser.fullName,
             userName:newUser.userName,
-            profilePic:newUser.profilePic
+            mail:newUser.mail,
+            walletAddress:newUser.walletAddress
+
         })
         }else{
             res.status(400).json({error:"Invalid user data"})
