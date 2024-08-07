@@ -1,10 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import authRoutes from "./routes/auth.routes.js"
+import authRoutes from "./routes/auth.routes.js";
 import mongooseConnection from "./db/connectToMongoDb.js";
-
-
 
 dotenv.config(); 
 
@@ -14,7 +12,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-app.use("/api/auth",authRoutes);
+app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
     mongooseConnection();
